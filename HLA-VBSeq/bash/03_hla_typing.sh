@@ -11,11 +11,11 @@ module load perl/5.30
 output_prefix=$1
 output_dir=$2/${output_prefix}; mkdir -p ${output_dir}
 
-# # bwa index /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/hla_all_v2.fasta
-# bwa mem -t 8 -P -L 10000 -a /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/hla_all_v2.fasta ${output_dir}/${output_prefix}_combined_R1.fastq ${output_dir}/${output_prefix}_combined_R2.fastq > ${output_dir}/${output_prefix}_hla.sam
-#
-# # estimation of HLA types
-# java -jar /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/HLAVBSeq.jar /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/hla_all_v2.fasta ${output_dir}/${output_prefix}_hla.sam ${output_dir}/${output_prefix}_result.txt --alpha_zero 0.01 --is_paired
+bwa index /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/hla_all_v2.fasta
+bwa mem -t 8 -P -L 10000 -a /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/hla_all_v2.fasta ${output_dir}/${output_prefix}_combined_R1.fastq ${output_dir}/${output_prefix}_combined_R2.fastq > ${output_dir}/${output_prefix}_hla.sam
+
+# estimation of HLA types
+java -jar /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/HLAVBSeq.jar /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/hla_all_v2.fasta ${output_dir}/${output_prefix}_hla.sam ${output_dir}/${output_prefix}_result.txt --alpha_zero 0.01 --is_paired
 
 
 perl /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/parse_result.pl /.mounts/labs/gsiprojects/external/zadehglab/SCOUT/tools/HLA-VBSeq/Allelelist_v2.txt ${output_dir}/${output_prefix}_result.txt  > ${output_dir}/${output_prefix}_HLA-VBSeq_prediction.txt
